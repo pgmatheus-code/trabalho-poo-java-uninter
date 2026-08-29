@@ -17,11 +17,11 @@ public class Cofrinho
 	// ponto de entrada
 	public static void main(String[] args)
 	{
-		ProgramaPrincipal();
+		MenuPrincipal();
 	}
 	
-	// métodos principais
-	public static void ProgramaPrincipal()
+	// métodos de menu
+	public static void MenuPrincipal()
 	{
 		// flag para romper o main loop
 		boolean finalizar = false;
@@ -34,7 +34,7 @@ public class Cofrinho
 			String quebra = "\n---------------------------------------";
 			
 			str = str.concat(quebra)
-			         .concat("\n------Cofrinho-Uninter:-RU-5300260-----")
+			         .concat("\n----- Cofrinho Uninter: RU-5300260 ----")
 			         .concat(quebra)
 			         .concat( "\n1 - Adicionar moeda"
 			         		+ "\n2 - Remover moeda"
@@ -68,7 +68,7 @@ public class Cofrinho
 				}
 				case 4:
 				{
-					Print("\nCalcular Total escolhido.");
+					ExibirTotalConvertido();
 					break;
 				}
 				case 5:
@@ -92,7 +92,7 @@ public class Cofrinho
 		String quebra = "\n---------------------------------------";
 		
 		str = str.concat(quebra)
-		         .concat("\n---------Adicionar-moeda---------------")
+		         .concat("\n-------- Adicionar moeda --------------")
 		         .concat(quebra)
 		         .concat( "\n1 - Real"
 		         		+ "\n2 - Dólar"
@@ -126,7 +126,7 @@ public class Cofrinho
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Real(valor);
-					listaMoedas.add(moeda);
+					AdicionarMoeda(moeda);
 				}
 				
 				break;
@@ -147,7 +147,7 @@ public class Cofrinho
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Dolar(valor);
-					listaMoedas.add(moeda);
+					AdicionarMoeda(moeda);
 				}
 				
 				break;
@@ -168,7 +168,7 @@ public class Cofrinho
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Euro(valor);
-					listaMoedas.add(moeda);
+					AdicionarMoeda(moeda);
 				}
 				
 				break;
@@ -180,19 +180,31 @@ public class Cofrinho
 			}	
 		}
 	}
+	public static void ExibirTotalConvertido()
+	{
+		// imprime menu
+		String str = "";
+		String quebra = "\n---------------------------------------";
+		
+		str = str.concat(quebra)
+		         .concat("\n---------- Total convertido -----------")
+		         .concat( "\nO total convertido é: R$ " + String.valueOf(TotalConvertido()))
+		         .concat(quebra);			
+		Print(str);
+	}
 	
 	// métodos específicos
-	public Moeda AdicionarMoeda(Moeda moeda)
+	public static Moeda AdicionarMoeda(Moeda moeda)
 	{
 		listaMoedas.add(moeda);
 		return moeda;
 	}	
-	public Moeda RemoverMoeda(Moeda moeda)
+	public static Moeda RemoverMoeda(Moeda moeda)
 	{
 		listaMoedas.remove(moeda);
 		return moeda;
 	}
-	public void ListagemMoedas()
+	public static void ListagemMoedas()
 	{
 		// provavelmente retornará uma
 		// string construida por loop
@@ -200,7 +212,7 @@ public class Cofrinho
 		// a ArrayList não precisaria de
 		// método.
 	}
-	public double TotalConvertido()
+	public static double TotalConvertido()
 	{
 		double totalConvertido = 0;
 		
