@@ -3,9 +3,9 @@ package moedas;
 
 public class Dolar extends Moeda
 {	
-	public Dolar(Moeda moeda)
+	public Dolar(double valor)
 	{
-		super(moeda);
+		super(valor);
 	}
 	
 	@Override

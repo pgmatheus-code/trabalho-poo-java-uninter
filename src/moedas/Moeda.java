@@ -4,11 +4,15 @@ public abstract class Moeda
 {
 	public double valor;
 	
-	public Moeda(Moeda moeda)
+	public Moeda(double valor)
 	{
-		return;
+		this.valor = valor;
 	}
 	
-	public abstract double Info();	
+	public double Info()
+	{
+		return valor;
+	}
+	
 	public abstract double Converter(double taxaConversao);
 }

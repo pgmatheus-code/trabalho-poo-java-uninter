@@ -3,9 +3,9 @@ package moedas;
 
 public class Real extends Moeda
 {	
-	public Real(Moeda moeda)
+	public Real(double valor)
 	{
-		super(moeda);
+		super(valor);
 	}
 	
 	@Override
