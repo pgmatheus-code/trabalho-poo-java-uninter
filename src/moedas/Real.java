@@ -5,17 +5,17 @@ public class Real extends Moeda
 {	
 	public Real(double valor)
 	{
-		super(valor);
+		super("Real", valor);
 	}
 	
 	@Override
-	public double Info()
+	public double info()
 	{
 		return super.valor;
 	}
 	
 	@Override
-	public double Converter(double taxaConversao)
+	public double converter(double taxaConversao)
 	{
 		return super.valor;
 	}

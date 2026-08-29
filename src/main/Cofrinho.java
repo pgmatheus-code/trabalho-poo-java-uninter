@@ -17,11 +17,11 @@ public class Cofrinho
 	// ponto de entrada
 	public static void main(String[] args)
 	{
-		MenuPrincipal();
+		menuPrincipal();
 	}
 	
 	// métodos de menu
-	public static void MenuPrincipal()
+	public static void menuPrincipal()
 	{
 		// flag para romper o main loop
 		boolean finalizar = false;
@@ -43,49 +43,49 @@ public class Cofrinho
 			         		+ "\n5 - Encerrar")
 			         .concat(quebra);
 			
-			Print(str);
+			print(str);
 			
 			// le console
-			int opcao = LerOpcao();			
+			int opcao = lerOpcao();			
 			
 			// seleciona e chama menu scundário
 			switch (opcao)
 			{
 				case 1:
 				{
-					MenuAdicionarMoeda();				
+					menuAdicionarMoeda();				
 					break;
 				}
 				case 2:
 				{
-					Print("\nRemover Moeda escolhido.");
+					print("\nRemover Moeda escolhido.");
 					break;
 				}
 				case 3:
 				{
-					Print("\nListar Moedas escolhido.");
+					listarMoedas();
 					break;
 				}
 				case 4:
 				{
-					ExibirTotalConvertido();
+					exibirTotalConvertido();
 					break;
 				}
 				case 5:
 				{					
-					Print("\nEncerrando programa...");
+					print("\nEncerrando programa...");
 					finalizar = true;
 					break;
 				}
 				default:
 				{
-					Print("\nOpção inválida!");
+					print("\nOpção inválida!");
 					break;
 				}
 			}
 		}
 	}
-	public static void MenuAdicionarMoeda()
+	public static void menuAdicionarMoeda()
 	{
 		// imprime menu
 		String str = "";
@@ -98,14 +98,14 @@ public class Cofrinho
 		         		+ "\n2 - Dólar"
 		         		+ "\n3 - Euro")
 		         .concat(quebra);			
-		Print(str);
+		print(str);
 		
 		// variaveis locais switch/case
 		Moeda moeda;
 		double valor = 0;
 		
 		// le input
-		int opcao = LerOpcao();
+		int opcao = lerOpcao();
 		
 		// seleciona moeda e guarda valor
 		switch (opcao)
@@ -113,20 +113,20 @@ public class Cofrinho
 			case 1: // CASO REAL ----------
 			{
 				// escreve opção e lê input 
-				Print("\nReal escolhido.");
-				valor = LerValor("reais");
+				print("\nReal escolhido.");
+				valor = lerValor("reais");
 				
 				// testa nulo ou negativo
-				if (ValorNuloOuNegativo(valor))
+				if (valorNuloOuNegativo(valor))
 				{
-					Print("\nO valor informado deve ser maior do que zero");
+					print("\nO valor informado deve ser maior do que zero");
 					return;
 				}
 				else
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Real(valor);
-					AdicionarMoeda(moeda);
+					adicionarMoedaNaLista(moeda);
 				}
 				
 				break;
@@ -134,20 +134,20 @@ public class Cofrinho
 			case 2: // CASO DÓLAR ---------
 			{
 				// escreve opção e lê input 
-				Print("\nDólar escolhido.");
-				valor = LerValor("dólares");
+				print("\nDólar escolhido.");
+				valor = lerValor("dólares");
 				
 				// testa nulo ou negativo
-				if (ValorNuloOuNegativo(valor))
+				if (valorNuloOuNegativo(valor))
 				{
-					Print("\nO valor informado deve ser maior do que zero");
+					print("\nO valor informado deve ser maior do que zero");
 					return;
 				}
 				else
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Dolar(valor);
-					AdicionarMoeda(moeda);
+					adicionarMoedaNaLista(moeda);
 				}
 				
 				break;
@@ -155,64 +155,84 @@ public class Cofrinho
 			case 3: // CASO EURO ----------
 			{
 				// escreve opção e lê input 
-				Print("\nEuro escolhido.");
-				valor = LerValor("euros");				
+				print("\nEuro escolhido.");
+				valor = lerValor("euros");				
 				
 				// testa nulo ou negativo
-				if (ValorNuloOuNegativo(valor))
+				if (valorNuloOuNegativo(valor))
 				{
-					Print("\nO valor informado deve ser maior do que zero");
+					print("\nO valor informado deve ser maior do que zero");
 					return;
 				}
 				else
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Euro(valor);
-					AdicionarMoeda(moeda);
+					adicionarMoedaNaLista(moeda);
 				}
 				
 				break;
 			}
 			default: // CASO INVÁLIDO -----
 			{
-				Print("\nValor inválido!");
+				print("\nValor inválido!");
 				return;
 			}	
 		}
 	}
-	public static void ExibirTotalConvertido()
+	
+	// métodos específicos
+	public static void listarMoedas()
+	{		
+		String quebra = "\n---------------------------------------";
+		
+		// early return caso a lista esteja vazia
+		if (listaMoedas.size() <= 0)
+		{
+			print(quebra);
+			print("\nA lista de moedas está vazia!");
+			return;
+		}
+		
+		String str = "";
+		// imprime lista	
+		str = str.concat(quebra)
+		         .concat("\n----------- Listar moedas -------------")
+		         .concat(quebra);			
+		
+		for (Moeda moeda : listaMoedas)
+		{
+			if (moeda == null) continue;
+							
+			// escrever a moeda atual
+			str = str.concat("\n" + moeda.nome + " - " + moeda.valor);
+		}
+		
+		print(str);
+	}
+	public static void exibirTotalConvertido()
 	{
-		// imprime menu
+		// imprime total
 		String str = "";
 		String quebra = "\n---------------------------------------";
 		
 		str = str.concat(quebra)
 		         .concat("\n---------- Total convertido -----------")
-		         .concat( "\nO total convertido é: R$ " + String.valueOf(TotalConvertido()))
+		         .concat( "\nO total convertido é: R$ " + String.valueOf(totalConvertido()))
 		         .concat(quebra);			
-		Print(str);
+		print(str);
 	}
-	
-	// métodos específicos
-	public static Moeda AdicionarMoeda(Moeda moeda)
+	public static Moeda adicionarMoedaNaLista(Moeda moeda)
 	{
 		listaMoedas.add(moeda);
 		return moeda;
 	}	
-	public static Moeda RemoverMoeda(Moeda moeda)
+	public static Moeda removerMoeda(Moeda moeda)
 	{
 		listaMoedas.remove(moeda);
 		return moeda;
 	}
-	public static void ListagemMoedas()
-	{
-		// provavelmente retornará uma
-		// string construida por loop
-		// pois se fosse para retornar
-		// a ArrayList não precisaria de
-		// método.
-	}
-	public static double TotalConvertido()
+	public static double totalConvertido()
 	{
 		double totalConvertido = 0;
 		
@@ -222,28 +242,44 @@ public class Cofrinho
 			// pula moeda atual caso valor nulo
 			if (moeda == null) continue;
 			
+			double valor;
+			
+			// converter se necessário
+			if (moeda instanceof Dolar)
+			{
+				valor = moeda.converter(usdToBrl);
+			}
+			if (moeda instanceof Dolar)
+			{
+				valor = moeda.converter(eurToBrl);
+			}
+			else
+			{
+				valor = moeda.valor;
+			}
+			
 			// incrementa valor da moeda atual no total
-			totalConvertido += moeda.valor;
+			totalConvertido += valor;
 		}
 		
 		return totalConvertido;
 	}
 	
 	// métodos genéricos
-	public static int LerOpcao()
+	public static int lerOpcao()
 	{
 		// instancia scanner para ler input da console
 		Scanner console = new Scanner(System.in);
 		
 		// prepara usuario para input
-		Print("\nPor favor, digite uma opção: ");
+		print("\nPor favor, digite uma opção: ");
 		int inteiro = 0;
 		
 		// lê e armazena
 		try
 		{
 			inteiro = console.nextInt();		
-			Print("---------------------------------------");
+			print("---------------------------------------");
 		}
 		catch(Exception e)
 		{
@@ -255,20 +291,20 @@ public class Cofrinho
 		//retorna opcao lida
 		return inteiro;
 	}
-	public static double LerValor(String moeda)
+	public static double lerValor(String moeda)
 	{
 		// instancia scanner para ler input da console
 		Scanner console = new Scanner(System.in);
 		
 		// prepara usuario para input
-		Print("\nPor favor, digite o valor em "+moeda+": ");
+		print("\nPor favor, digite o valor em "+moeda+": ");
 		double valor = 0;
 				
 		// lê e armazena
 		try
 		{
 			valor = console.nextDouble();		
-			Print("---------------------------------------");
+			print("---------------------------------------");
 		}
 		catch(Exception e)
 		{
@@ -280,11 +316,11 @@ public class Cofrinho
 		//retorna valor lido
 		return valor;
 	}
-	public static boolean ValorNuloOuNegativo(double valor)
+	public static boolean valorNuloOuNegativo(double valor)
 	{
 		return valor <= 0;
 	}
-	public static void Print(String txt)
+	public static void print(String txt)
 	{
 		System.out.print(txt);
 	}

@@ -5,17 +5,17 @@ public class Euro extends Moeda
 {	
 	public Euro(double valor)
 	{
-		super(valor);
+		super("Euro", valor);
 	}
 	
 	@Override
-	public double Info()
+	public double info()
 	{
 		return super.valor;
 	}
 	
 	@Override
-	public double Converter(double taxaConversao)
+	public double converter(double taxaConversao)
 	{
 		return super.valor * taxaConversao;
 	}
