@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 public class Cofrinho
 {
-	// cotacoes
+	// cotacoes (hard coded)
 	public static double usdToBrl = 5.19;
 	public static double eurToBrl = 6.02;
 	public static String dataConsulta = "29/08/2026 13:28";
+	public static String quebra = "\n"; // "\n---------------------------------------";
 	
 	// collection
 	public static List<Moeda> listaMoedas = new ArrayList<Moeda>();
@@ -29,9 +30,9 @@ public class Cofrinho
 		// main loop
 		while (finalizar == false)
 		{
+			
 			// imprime menu principal
 			String str = "";
-			String quebra = "\n---------------------------------------";
 			
 			str = str.concat(quebra)
 			         .concat("\n----- Cofrinho Uninter: RU-5300260 ----")
@@ -40,7 +41,8 @@ public class Cofrinho
 			         		+ "\n2 - Remover moeda"
 			         		+ "\n3 - Listar moedas"
 			         		+ "\n4 - Calcular total convertido em reais"
-			         		+ "\n5 - Encerrar")
+			         		+ "\n5 - Cotação"
+			         		+ "\n6 - Encerrar")
 			         .concat(quebra);
 			
 			print(str);
@@ -58,7 +60,7 @@ public class Cofrinho
 				}
 				case 2:
 				{
-					print("\nRemover Moeda escolhido.");
+					menuRemoverMoeda();
 					break;
 				}
 				case 3:
@@ -72,6 +74,11 @@ public class Cofrinho
 					break;
 				}
 				case 5:
+				{
+					exibirCotacao();
+					break;
+				}
+				case 6:
 				{					
 					print("\nEncerrando programa...");
 					finalizar = true;
@@ -89,7 +96,6 @@ public class Cofrinho
 	{
 		// imprime menu
 		String str = "";
-		String quebra = "\n---------------------------------------";
 		
 		str = str.concat(quebra)
 		         .concat("\n-------- Adicionar moeda --------------")
@@ -114,7 +120,7 @@ public class Cofrinho
 			{
 				// escreve opção e lê input 
 				print("\nReal escolhido.");
-				valor = lerValor("reais");
+				valor = lerValor();
 				
 				// testa nulo ou negativo
 				if (valorNuloOuNegativo(valor))
@@ -126,7 +132,7 @@ public class Cofrinho
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Real(valor);
-					adicionarMoedaNaLista(moeda);
+					listaMoedas.add(moeda);
 				}
 				
 				break;
@@ -135,7 +141,7 @@ public class Cofrinho
 			{
 				// escreve opção e lê input 
 				print("\nDólar escolhido.");
-				valor = lerValor("dólares");
+				valor = lerValor();
 				
 				// testa nulo ou negativo
 				if (valorNuloOuNegativo(valor))
@@ -147,7 +153,7 @@ public class Cofrinho
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Dolar(valor);
-					adicionarMoedaNaLista(moeda);
+					listaMoedas.add(moeda);
 				}
 				
 				break;
@@ -156,7 +162,7 @@ public class Cofrinho
 			{
 				// escreve opção e lê input 
 				print("\nEuro escolhido.");
-				valor = lerValor("euros");				
+				valor = lerValor();				
 				
 				// testa nulo ou negativo
 				if (valorNuloOuNegativo(valor))
@@ -168,7 +174,7 @@ public class Cofrinho
 				{
 					// insere a moeda caso tudo certo
 					moeda = new Euro(valor);
-					adicionarMoedaNaLista(moeda);
+					listaMoedas.add(moeda);
 				}
 				
 				break;
@@ -180,12 +186,137 @@ public class Cofrinho
 			}	
 		}
 	}
+	public static void menuRemoverMoeda()
+	{
+		// imprime menu
+		String str = "";
+		String quebra = "\n---------------------------------------";
+		
+		str = str.concat(quebra)
+				 .concat("\n----------- Remover moeda -------------")
+		         .concat(quebra)
+		         .concat( "\n1 - Real"
+		         		+ "\n2 - Dólar"
+		         		+ "\n3 - Euro")
+		         .concat(quebra);			
+		print(str);
+		
+		// variaveis locais switch/case
+		double valor = 0;
+		
+		// le input
+		int opcao = lerOpcao();
+		
+		// seleciona moeda e guarda valor
+		switch (opcao)
+		{
+			case 1: // CASO REAL ----------
+			{
+				// escreve opção e lê input 
+				print("\nReal escolhido.");
+				valor = lerValor();
+				
+				// testa nulo ou negativo
+				if (valorNuloOuNegativo(valor))
+				{
+					print("\nO valor informado deve ser maior do que zero");
+					return;
+				}
+				else
+				{
+					// busca para eliminação
+					for (Moeda moeda : listaMoedas)
+					{
+						if (moeda.valor == valor && moeda instanceof Real)
+						{
+							// elimina o primeiro que encontra e retorna
+							print("\n" + valor + " em " + moeda.nome + " for removido.");
+							listaMoedas.remove(moeda);
+							return;
+						}
+					}
+					
+					// exibe mensagem caso não encontre
+					print("\nNenhuma moeda encontrada com o valor desejado.");	
+				}
+				
+				break;
+			}
+			case 2: // CASO DÓLAR ---------
+			{
+				// escreve opção e lê input 
+				print("\nDólar escolhido.");
+				valor = lerValor();
+				
+				// testa nulo ou negativo
+				if (valorNuloOuNegativo(valor))
+				{
+					print("\nO valor informado deve ser maior do que zero");
+					return;
+				}
+				else
+				{
+					// busca para eliminação
+					for (Moeda moeda : listaMoedas)
+					{
+						if (moeda.valor == valor && moeda instanceof Dolar)
+						{
+							// elimina o primeiro que encontra e retorna
+							print("\n" + valor + " em " + moeda.nome + " for removido.");
+							listaMoedas.remove(moeda);
+							return;
+						}
+					}
+					
+					// exibe mensagem caso não encontre
+					print("\nNenhuma moeda encontrada com o valor desejado.");
+				}
+				
+				break;
+			}
+			case 3: // CASO EURO ----------
+			{
+				// escreve opção e lê input 
+				print("\nEuro escolhido.");
+				valor = lerValor();				
+				
+				// testa nulo ou negativo
+				if (valorNuloOuNegativo(valor))
+				{
+					print("\nO valor informado deve ser maior do que zero");
+					return;
+				}
+				else
+				{
+					// busca para eliminação
+					for (Moeda moeda : listaMoedas)
+					{
+						if (moeda.valor == valor && moeda instanceof Euro)
+						{
+							// elimina o primeiro que encontra e retorna
+							print("\n" + valor + " em " + moeda.nome + " for removido.");
+							listaMoedas.remove(moeda);
+							return;
+						}
+					}
+					
+					// exibe mensagem caso não encontre
+					print("\nNenhuma moeda encontrada com o valor desejado.");
+				}
+				
+				break;
+			}
+			default: // CASO INVÁLIDO -----
+			{
+				print("\nValor inválido!");
+				return;
+			}	
+		}
+	}	
 	
 	// métodos específicos
 	public static void listarMoedas()
-	{		
-		String quebra = "\n---------------------------------------";
-		
+	{				
 		// early return caso a lista esteja vazia
 		if (listaMoedas.size() <= 0)
 		{
@@ -214,24 +345,28 @@ public class Cofrinho
 	{
 		// imprime total
 		String str = "";
-		String quebra = "\n---------------------------------------";
 		
 		str = str.concat(quebra)
 		         .concat("\n---------- Total convertido -----------")
-		         .concat( "\nO total convertido é: R$ " + String.valueOf(totalConvertido()))
-		         .concat(quebra);			
+		         .concat("\nO total convertido é: R$ " + String.valueOf(totalConvertido()))
+		         .concat(quebra);		
 		print(str);
 	}
-	public static Moeda adicionarMoedaNaLista(Moeda moeda)
+	public static void exibirCotacao()
 	{
-		listaMoedas.add(moeda);
-		return moeda;
+		// imprime total
+		String str = "";
+		
+		str = str.concat(quebra)
+		         .concat("\n--------------Cotação------------------")
+		         .concat(quebra)			
+		         .concat("\nDolar: " + usdToBrl)
+		         .concat("\nEuro: " + eurToBrl)
+		         .concat("\nData da cotação: " + dataConsulta);		
+		print(str);
 	}	
-	public static Moeda removerMoeda(Moeda moeda)
-	{
-		listaMoedas.remove(moeda);
-		return moeda;
-	}
+	
+	// métodos genéricos
 	public static double totalConvertido()
 	{
 		double totalConvertido = 0;
@@ -249,7 +384,7 @@ public class Cofrinho
 			{
 				valor = moeda.converter(usdToBrl);
 			}
-			if (moeda instanceof Dolar)
+			else if (moeda instanceof Euro)
 			{
 				valor = moeda.converter(eurToBrl);
 			}
@@ -264,8 +399,6 @@ public class Cofrinho
 		
 		return totalConvertido;
 	}
-	
-	// métodos genéricos
 	public static int lerOpcao()
 	{
 		// instancia scanner para ler input da console
@@ -279,7 +412,7 @@ public class Cofrinho
 		try
 		{
 			inteiro = console.nextInt();		
-			print("---------------------------------------");
+			print(quebra);
 		}
 		catch(Exception e)
 		{
@@ -291,20 +424,20 @@ public class Cofrinho
 		//retorna opcao lida
 		return inteiro;
 	}
-	public static double lerValor(String moeda)
+	public static double lerValor()
 	{
 		// instancia scanner para ler input da console
 		Scanner console = new Scanner(System.in);
 		
 		// prepara usuario para input
-		print("\nPor favor, digite o valor em "+moeda+": ");
+		print("\nDigite o valor desejado:");
 		double valor = 0;
 				
 		// lê e armazena
 		try
 		{
 			valor = console.nextDouble();		
-			print("---------------------------------------");
+			print(quebra);
 		}
 		catch(Exception e)
 		{
